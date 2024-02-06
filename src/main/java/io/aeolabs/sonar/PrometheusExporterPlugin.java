@@ -1,10 +1,12 @@
 package io.aeolabs.sonar;
 
+import io.aeolabs.sonar.ws.PrometheusWebService;
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PrometheusExporterPlugin implements Plugin {
@@ -14,7 +16,7 @@ public class PrometheusExporterPlugin implements Plugin {
         List<PropertyDefinition> properties = PrometheusWebService.SUPPORTED_METRICS.stream()
                 .map(metric -> PropertyDefinition.builder(PrometheusWebService.CONFIG_PREFIX + metric.getKey())
                         .name(String.format("Export \"%s\" as Prometheus metric.", metric.getName()))
-                        .description(metric.getDescription())
+                        .description(Objects.requireNonNull(metric.getDescription()))
                         .type(PropertyType.BOOLEAN)
                         .defaultValue(Boolean.TRUE.toString())
                         .build())

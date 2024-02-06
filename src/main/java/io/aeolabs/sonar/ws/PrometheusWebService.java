@@ -1,4 +1,4 @@
-package io.aeolabs.sonar;
+package io.aeolabs.sonar.ws;
 
 
 import io.prometheus.client.CollectorRegistry;
@@ -30,9 +30,10 @@ import static java.util.Objects.nonNull;
 
 public class PrometheusWebService implements WebService {
 
-    static final Set<Metric<?>> SUPPORTED_METRICS = new HashSet<>();
-    static final String CONFIG_PREFIX = "prometheus.export.";
-    private static final String METRIC_PREFIX = "sonar_";
+    public static final Set<Metric<?>> SUPPORTED_METRICS = new HashSet<>();
+    public static final String CONFIG_PREFIX = "prometheus.export.";
+    private static final String METRIC_PREFIX = "sonarqube_";
+    private static final String API_URL = "api/prometheus";
 
     private final Configuration configuration;
     private final Map<String, Gauge> gauges = new HashMap<>();
@@ -45,7 +46,8 @@ public class PrometheusWebService implements WebService {
         SUPPORTED_METRICS.add(CoreMetrics.COVERAGE);
         SUPPORTED_METRICS.add(CoreMetrics.VULNERABILITIES);
         SUPPORTED_METRICS.add(CoreMetrics.RELIABILITY_RATING);
-        SUPPORTED_METRICS.add(CoreMetrics.NEW_MAINTAINABILITY_RATING);
+        SUPPORTED_METRICS.add(CoreMetrics.RELIABILITY_REMEDIATION_EFFORT);
+        SUPPORTED_METRICS.add(CoreMetrics.SECURITY_REMEDIATION_EFFORT);
         SUPPORTED_METRICS.add(CoreMetrics.DUPLICATED_LINES);
         SUPPORTED_METRICS.add(CoreMetrics.TECHNICAL_DEBT);
         SUPPORTED_METRICS.add(CoreMetrics.PROJECTS);
@@ -65,7 +67,7 @@ public class PrometheusWebService implements WebService {
         updateEnabledMetrics();
         updateEnabledGauges();
 
-        NewController controller = context.createController("api/prometheus");
+        NewController controller = context.createController(API_URL);
         controller.setDescription("Prometheus Exporter");
 
         controller.createAction("metrics")
@@ -86,8 +88,9 @@ public class PrometheusWebService implements WebService {
                             wsResponse.getComponent().getMeasuresList().forEach(measure -> {
 
                                 if (this.gauges.containsKey(measure.getMetric())) {
-
-                                    this.gauges.get(measure.getMetric()).labels(project.getKey(), project.getName()).set(Double.valueOf(measure.getValue()));
+                                    this.gauges.get(measure.getMetric())
+                                            .labels(project.getKey(), project.getName())
+                                            .set(Double.parseDouble(measure.getValue()));
                                 }
                             });
                         });
@@ -101,6 +104,7 @@ public class PrometheusWebService implements WebService {
                     try (OutputStreamWriter writer = new OutputStreamWriter(output)) {
 
                         TextFormat.write004(writer, CollectorRegistry.defaultRegistry.metricFamilySamples());
+
                     }
 
                 });
@@ -144,9 +148,11 @@ public class PrometheusWebService implements WebService {
 
     private List<Components.Component> getProjects(WsClient wsClient) {
 
-        return wsClient.components().search(new SearchRequest()
+        return wsClient.components()
+                .search(new SearchRequest()
                         .setQualifiers(Collections.singletonList(Qualifiers.PROJECT))
                         .setPs("500"))
                 .getComponentsList();
+
     }
 }

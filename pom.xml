@@ -18,7 +18,8 @@
     <packaging>sonar-plugin</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.apiVersion>7.0</sonar.apiVersion>
+        <sonar.apiVersion>9.4.0.54424</sonar.apiVersion>
+        <sonar.wsVersion>10.4.0.87286</sonar.wsVersion>
         <jdk.min.version>1.8</jdk.min.version>
         <sonar.sources>src/main/java</sonar.sources>
     </properties>
@@ -33,7 +34,7 @@
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
             <artifactId>sonar-ws</artifactId>
-            <version>10.1.0.73491</version>
+            <version>${sonar.wsVersion}</version>
         </dependency>
 
 
@@ -43,7 +44,12 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>io.prometheus</groupId>
@@ -62,13 +68,15 @@
             <plugin>
                 <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
                 <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>1.18.0.372</version>
+                <version>1.23.0.740</version>
                 <extensions>true</extensions>
                 <configuration>
                     <pluginKey>prometheus-exporter</pluginKey>
                     <pluginClass>io.aeolabs.sonar.PrometheusExporterPlugin</pluginClass>
                     <pluginName>Prometheus Exporter</pluginName>
-                    <pluginDescription>Prometheus Exporter Plugins Aeolabs</pluginDescription>
+                    <pluginDescription>Prometheus Exporter Plugins</pluginDescription>
+                    <pluginOrganizationName>Aeolabs</pluginOrganizationName>
+                    <pluginOrganizationUrl>https://aeolabs.io</pluginOrganizationUrl>
                 </configuration>
             </plugin>
             <plugin>

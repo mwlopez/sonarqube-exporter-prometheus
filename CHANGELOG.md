@@ -11,3 +11,8 @@ Version 1.0.0:
     PROJECTS
     COGNITIVE_COMPLEXITY
     CRITICAL_VIOLATIONS
+
+Version 1.0.1:
+- Support for new metrics and log into sonarqube
+- Improve logic and new static option usage
+- Move wsService
