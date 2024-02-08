@@ -3,8 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.aeolabs.sonar</groupId>
-    <!-- it's recommended to follow the pattern "sonar-{key}-plugin", for example "sonar-myphp-plugin" -->
-    <artifactId>sonarqube-prometheus-plugin</artifactId>
+    <artifactId>sonar-metrics-exporter-plugin</artifactId>
     <version>1.0.0</version>
 
     <developers>
@@ -18,8 +17,7 @@
     <packaging>sonar-plugin</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.apiVersion>9.4.0.54424</sonar.apiVersion>
-        <sonar.wsVersion>10.4.0.87286</sonar.wsVersion>
+        <sonar.apiVersion>7.0</sonar.apiVersion>
         <jdk.min.version>1.8</jdk.min.version>
         <sonar.sources>src/main/java</sonar.sources>
     </properties>
@@ -34,7 +32,7 @@
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
             <artifactId>sonar-ws</artifactId>
-            <version>${sonar.wsVersion}</version>
+            <version>10.1.0.73491</version>
         </dependency>
 
 
@@ -44,12 +42,7 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>io.prometheus</groupId>
@@ -61,6 +54,11 @@
             <artifactId>simpleclient_common</artifactId>
             <version>0.16.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.28</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -68,15 +66,13 @@
             <plugin>
                 <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
                 <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>1.23.0.740</version>
+                <version>1.18.0.372</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <pluginKey>prometheus-exporter</pluginKey>
-                    <pluginClass>io.aeolabs.sonar.PrometheusExporterPlugin</pluginClass>
-                    <pluginName>Prometheus Exporter</pluginName>
-                    <pluginDescription>Prometheus Exporter Plugins</pluginDescription>
-                    <pluginOrganizationName>Aeolabs</pluginOrganizationName>
-                    <pluginOrganizationUrl>https://aeolabs.io</pluginOrganizationUrl>
+                    <pluginKey>metrics-exporter</pluginKey>
+                    <pluginClass>io.aeolabs.sonar.MetricsExporterPlugin</pluginClass>
+                    <pluginName>Metrics Exporter</pluginName>
+                    <pluginDescription>Metrics Exporter Plugins Aeolabs</pluginDescription>
                 </configuration>
             </plugin>
             <plugin>
