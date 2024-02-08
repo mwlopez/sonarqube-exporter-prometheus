@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.aeolabs.sonar</groupId>
     <artifactId>sonar-metrics-exporter-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <developers>
         <developer>
