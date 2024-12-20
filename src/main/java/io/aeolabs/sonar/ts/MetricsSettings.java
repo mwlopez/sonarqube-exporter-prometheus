@@ -38,6 +38,8 @@ public class MetricsSettings {
         SUPPORTED_METRICS.add(CoreMetrics.PROJECTS);
         SUPPORTED_METRICS.add(CoreMetrics.COGNITIVE_COMPLEXITY);
         SUPPORTED_METRICS.add(CoreMetrics.CRITICAL_VIOLATIONS);
+        SUPPORTED_METRICS.add(CoreMetrics.EXECUTABLE_LINES_DATA);
+        SUPPORTED_METRICS.add(CoreMetrics.VIOLATIONS);
     }
 
     public MetricsSettings(Configuration cnf) {
